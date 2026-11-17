@@ -1,116 +1,54 @@
 <!DOCTYPE html>
 <html lang="kk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Жүргізуші сізді көре ала ма? (AR)</title>
-  
-  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-    }
-    #ui-container {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      width: 90%;
-      max-width: 400px;
-    }
-    #status-box {
-      background: rgba(0, 0, 0, 0.85);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: bold;
-      text-align: center;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    #toggle-blindspots {
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    }
-    #toggle-blindspots:active {
-      background: #1d4ed8;
-    }
-    #label-top {
-      position: fixed;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 999;
-      background: rgba(255, 255, 255, 0.85);
-      color: #111;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: bold;
-    }
-  </style>
+    <title>Жүргізуші сізді көре ала ма?</title>
+
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 </head>
+
 <body>
 
-  <div id="label-top">Жеңілдетілген оқу моделі</div>
+    <a-scene
+        mindar-image="imageTargetSrc: ./targets.mind;"
+        color-space="sRGB"
+        renderer="colorManagement: true, physicallyCorrectLights"
+        vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false">
 
-  <div id="ui-container">
-    <div id="status-box">Жүк көлігінің жанындағы шеңберді түртіңіз</div>
-    <button id="toggle-blindspots">Соқыр аймақтарды көрсету</button>
-  </div>
+    <a-camera
+        position="0 0 0"
+        look-controls="enabled: false"
+        cursor="rayOrigin: mouse"
+        raycaster="objects: .clickable; far: 100">
+    </a-camera>
 
-  <a-scene 
-    mindar-image="imageTargetSrc: ./targets.mind;" 
-    color-space="sRGB" 
-    renderer="colorManagement: true, physicallyCorrectLights" 
-    vr-mode-ui="enabled: false" 
-    device-orientation-permission-ui="enabled: false">
 
-    <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable;"></a-camera>
+        <a-entity mindar-image-target="targetIndex: 0">
 
-    <a-entity mindar-image-target="targetIndex: 0">
-      
-      <a-plane position="0 0 0" rotation="-90 0 0" width="1.4" height="1.4" color="#333333" opacity="0.7"></a-plane>
+            <a-box
+                position="0 0.5 0"
+                width="0.8"
+                height="0.5"
+                depth="1.2"
+                color="#2874A6">
+            </a-box>
 
-      <a-entity id="truck" position="0 0 0">
-        <a-box position="0 0.18 -0.15" width="0.3" height="0.3" depth="0.55" color="#e5e7eb"></a-box>
-        <a-box position="0 0.14 0.22" width="0.28" height="0.22" depth="0.2" color="#2563eb"></a-box>
-        <a-box position="0 0.18 0.321" width="0.24" height="0.1" depth="0.01" color="#93c5fd"></a-box>
-      </a-entity>
+            <a-box
+                position="0 0.85 0.45"
+                width="0.8"
+                height="0.6"
+                depth="0.4"
+                color="#F1C40F">
+            </a-box>
 
-      <a-entity id="pedestrian" visible="false" position="0 0 0">
-        <a-cylinder position="0 0.08 0" radius="0.025" height="0.16" color="#f59e0b"></a-cylinder>
-        <a-sphere position="0 0.19 0" radius="0.025" color="#fde68a"></a-sphere>
-      </a-entity>
+        </a-entity>
 
-      <a-circle class="clickable spot" data-visible="false" data-name="Кабинаның дәл алды" position="0 0.01 0.45" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-      <a-circle class="clickable spot" data-visible="false" data-name="Оң жақ борт" position="0.28 0.01 0.15" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-      <a-circle class="clickable spot" data-visible="false" data-name="Көліктің арты" position="0 0.01 -0.55" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-      <a-circle class="clickable spot" data-visible="true" data-name="Сол жақ айна аймағы" position="-0.32 0.01 0.05" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-      <a-circle class="clickable spot" data-visible="true" data-name="Алдыңғы алыс қашықтық" position="-0.15 0.01 0.65" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-      <a-circle class="clickable spot" data-visible="true" data-name="Оң жақ алыс бұрыш" position="0.45 0.01 -0.25" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-
-    </a-entity>
-  </a-scene>
-
-  <script src="script.js"></script>
+    </a-scene>
+<script src="./script.js"></script>
 </body>
 </html>
