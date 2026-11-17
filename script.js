@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let showBlindSpots = false;
 
   spots.forEach((spot) => {
-    const triggerAction = (e) => {
-      if (e) e.stopPropagation();
-
+    const activateSpot = (e) => {
+      e.stopPropagation();
+      
       const pos = spot.getAttribute("position");
       pedestrian.setAttribute("position", `${pos.x} 0 ${pos.z}`);
       pedestrian.setAttribute("visible", "true");
@@ -19,16 +19,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (isVisible) {
         statusBox.textContent = `✅ ${spotName}: Кабинадан КӨРІНЕДІ`;
-        statusBox.style.background = "rgba(22, 163, 74, 0.9)"; 
+        statusBox.style.background = "rgba(22, 163, 74, 0.9)";
       } else {
         statusBox.textContent = `⚠️ ${spotName}: СОҚЫР АЙМАҚ (Көрінбейді)`;
-        statusBox.style.background = "rgba(220, 38, 38, 0.9)"; 
+        statusBox.style.background = "rgba(220, 38, 38, 0.9)";
       }
     };
 
-    spot.addEventListener("click", triggerAction);
-    spot.addEventListener("touchstart", triggerAction);
-    spot.addEventListener("mousedown", triggerAction);
+    spot.addEventListener("click", activateSpot);
+    spot.addEventListener("touchstart", activateSpot);
+    spot.addEventListener("mousedown", activateSpot);
   });
 
   toggleBtn.addEventListener("click", () => {
