@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Жүргізуші сізді көре ала ма? (AR)</title>
   
-  <!-- A-Frame және MindAR кітапханалары -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
@@ -15,38 +14,59 @@
       overflow: hidden;
       font-family: Arial, sans-serif;
     }
-    /* Экран үстіндегі интерфейс (UI) */
     #ui-container {
       position: fixed;
-      bottom: 20px;
+      bottom: 15px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 999;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
-      width: 90%;
-      max-width: 400px;
+      gap: 8px;
+      width: 92%;
+      max-width: 420px;
     }
     #status-box {
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       color: white;
-      padding: 12px 20px;
-      border-radius: 12px;
-      font-size: 16px;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-size: 14px;
       font-weight: bold;
       text-align: center;
       width: 100%;
       box-sizing: border-box;
     }
+
+    #points-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      width: 100%;
+    }
+    .point-btn {
+      background: rgba(255, 255, 255, 0.9);
+      color: #111;
+      border: 1px solid #ccc;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .point-btn:active {
+      background: #e2e8f0;
+    }
     #toggle-blindspots {
       background: #2563eb;
       color: white;
       border: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-size: 15px;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 14px;
       font-weight: bold;
       cursor: pointer;
       width: 100%;
@@ -72,16 +92,23 @@
 </head>
 <body>
 
-  <!-- Жоғарғы жазу -->
   <div id="label-top">Жеңілдетілген оқу моделі</div>
 
-  <!-- Төменгі басқару панелі -->
   <div id="ui-container">
-    <div id="status-box">Жүк көлігінің жанындағы шеңберді түртіңіз</div>
+    <div id="status-box">Жаяу жүргіншіні орналастыру үшін нүктені таңдаңыз</div>
+    
+    <div id="points-grid">
+      <button class="point-btn" data-x="0" data-z="0.45" data-visible="false" data-name="Кабинаның дәл алды">1. Кабина алды ⚠️</button>
+      <button class="point-btn" data-x="0.28" data-z="0.15" data-visible="false" data-name="Оң жақ борт">2. Оң жақ борт ⚠️</button>
+      <button class="point-btn" data-x="0" data-z="-0.55" data-visible="false" data-name="Көліктің арты">3. Көліктің арты ⚠️</button>
+      <button class="point-btn" data-x="-0.32" data-z="0.05" data-visible="true" data-name="Сол жақ айна аймағы">4. Сол айна ✅</button>
+      <button class="point-btn" data-x="-0.15" data-z="0.65" data-visible="true" data-name="Алдыңғы алыс аймақ">5. Алдыңғы алыс ✅</button>
+      <button class="point-btn" data-x="0.45" data-z="-0.25" data-visible="true" data-name="Оң жақ алыс бұрыш">6. Оң алыс бұрыш ✅</button>
+    </div>
+
     <button id="toggle-blindspots">Соқыр аймақтарды көрсету</button>
   </div>
 
-  <!-- AR Сахна -->
   <a-scene 
     mindar-image="imageTargetSrc: ./targets.mind;" 
     color-space="sRGB" 
@@ -90,50 +117,21 @@
     device-orientation-permission-ui="enabled: false">
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-    <a-entity cursor="rayOrigin: mouse;" raycaster="objects: .clickable; interval: 200;"></a-entity>
 
-    <!-- Маркерге байланған 3D объектілер -->
     <a-entity mindar-image-target="targetIndex: 0">
       
-      <!-- Жол (негізгі платформа) -->
       <a-plane position="0 0 0" rotation="-90 0 0" width="1.4" height="1.4" color="#333333" opacity="0.7"></a-plane>
 
-      <!-- УАҚЫТША ЖҮК КӨЛІГІ (Кубтардан жиналған) -->
       <a-entity id="truck" position="0 0 0">
-        <!-- Кузов -->
         <a-box position="0 0.18 -0.15" width="0.3" height="0.3" depth="0.55" color="#e5e7eb"></a-box>
-        <!-- Кабина (алдыңғы жағы +Z бағытында) -->
         <a-box position="0 0.14 0.22" width="0.28" height="0.22" depth="0.2" color="#2563eb"></a-box>
-        <!-- Алдыңғы әйнек -->
         <a-box position="0 0.18 0.321" width="0.24" height="0.1" depth="0.01" color="#93c5fd"></a-box>
       </a-entity>
 
-      <!-- ЖАЯУ ЖҮРГІНШІ МҮСІНШЕСІ (Бастапқыда жасырулы) -->
       <a-entity id="pedestrian" visible="false" position="0 0 0">
-        <!-- Денесі -->
         <a-cylinder position="0 0.08 0" radius="0.025" height="0.16" color="#f59e0b"></a-cylinder>
-        <!-- Басы -->
         <a-sphere position="0 0.19 0" radius="0.025" color="#fde68a"></a-sphere>
       </a-entity>
-
-      <!-- 6 НҮКТЕ (Шеңберлер) -->
-      <!-- 1. Кабинаның дәл алды (Соқыр аймақ) -->
-      <a-circle class="clickable spot" data-visible="false" data-name="Кабинаның дәл алды" position="0 0.01 0.45" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-      
-      <!-- 2. Оң жақ есік тұсы (Соқыр аймақ) -->
-      <a-circle class="clickable spot" data-visible="false" data-name="Оң жақ борт" position="0.28 0.01 0.15" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-
-      <!-- 3. Көліктің дәл арты (Соқыр аймақ) -->
-      <a-circle class="clickable spot" data-visible="false" data-name="Көліктің арты" position="0 0.01 -0.55" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-
-      <!-- 4. Сол жақ айна көретін аймақ (Көрінеді) -->
-      <a-circle class="clickable spot" data-visible="true" data-name="Сол жақ айна аймағы" position="-0.32 0.01 0.05" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-
-      <!-- 5. Алдыңғы алыс қашықтық (Көрінеді) -->
-      <a-circle class="clickable spot" data-visible="true" data-name="Алдыңғы алыс аймақ" position="-0.15 0.01 0.65" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-
-      <!-- 6. Оң жақ айнаның алыс бұрышы (Көрінеді) -->
-      <a-circle class="clickable spot" data-visible="true" data-name="Оң жақ алыс бұрыш" position="0.45 0.01 -0.25" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
 
     </a-entity>
   </a-scene>
