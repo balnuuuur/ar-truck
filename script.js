@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const pointBtns = document.querySelectorAll(".point-btn");
+  const visualSpots = document.querySelectorAll(".visual-spot");
   const pedestrian = document.querySelector("#pedestrian");
   const statusBox = document.querySelector("#status-box");
   const toggleBtn = document.querySelector("#toggle-blindspots");
@@ -33,10 +34,19 @@ document.addEventListener("DOMContentLoaded", () => {
       toggleBtn.textContent = "Соқыр аймақтарды жасыру";
       toggleBtn.style.background = "#dc2626";
       statusBox.textContent = "🔴 Қызыл аймақтар - жүргізуші көре алмайтын соқыр аймақтар!";
+
+      visualSpots.forEach((spot) => {
+        const isVisible = spot.getAttribute("data-visible") === "true";
+        spot.setAttribute("color", isVisible ? "#22c55e" : "#ef4444");
+      });
     } else {
       toggleBtn.textContent = "Соқыр аймақтарды көрсету";
       toggleBtn.style.background = "#2563eb";
       statusBox.textContent = "Мүсіншені қою үшін төменнен нүктені таңдаңыз";
+
+      visualSpots.forEach((spot) => {
+        spot.setAttribute("color", "#9ca3af");
+      });
     }
   });
 });
