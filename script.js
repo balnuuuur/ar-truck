@@ -9,12 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   pointBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-      const x = btn.getAttribute("data-x");
-      const z = btn.getAttribute("data-z");
-      const isVisible = btn.getAttribute("data-visible") === "true";
-      const spotName = btn.getAttribute("data-name");
+      const index = btn.getAttribute("data-index");
+      const targetSpot = visualSpots[index];
+      
+      const pos = targetSpot.getAttribute("position");
+      const isVisible = targetSpot.getAttribute("data-visible") === "true";
+      const spotName = targetSpot.getAttribute("data-name");
 
-      pedestrian.setAttribute("position", `${x} 0 ${z}`);
+      pedestrian.setAttribute("position", `${pos.x} 0 ${pos.z}`);
       pedestrian.setAttribute("visible", "true");
 
       if (isVisible) {
@@ -34,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
       toggleBtn.textContent = "Соқыр аймақтарды жасыру";
       toggleBtn.style.background = "#dc2626";
       statusBox.textContent = "🔴 Қызыл аймақтар - жүргізуші көре алмайтын соқыр аймақтар!";
+      statusBox.style.background = "rgba(220, 38, 38, 0.9)";
 
       visualSpots.forEach((spot) => {
         const isVisible = spot.getAttribute("data-visible") === "true";
@@ -43,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
       toggleBtn.textContent = "Соқыр аймақтарды көрсету";
       toggleBtn.style.background = "#2563eb";
       statusBox.textContent = "Мүсіншені қою үшін төменнен нүктені таңдаңыз";
+      statusBox.style.background = "rgba(0, 0, 0, 0.85)";
 
       visualSpots.forEach((spot) => {
         spot.setAttribute("color", "#9ca3af");

@@ -96,12 +96,12 @@
     <div id="status-box">Мүсіншені қою үшін төменнен нүктені таңдаңыз</div>
     
     <div id="points-grid">
-      <button class="point-btn" data-x="0" data-z="0.45" data-visible="false" data-name="Кабина алды">1. Кабина алды</button>
-      <button class="point-btn" data-x="0.28" data-z="0.15" data-visible="false" data-name="Оң жақ борт">2. Оң борт</button>
-      <button class="point-btn" data-x="0" data-z="-0.55" data-visible="false" data-name="Көлік арты">3. Көлік арты</button>
-      <button class="point-btn" data-x="-0.32" data-z="0.05" data-visible="true" data-name="Сол айна аймағы">4. Сол айна</button>
-      <button class="point-btn" data-x="-0.15" data-z="0.65" data-visible="true" data-name="Алдыңғы алыс">5. Алыс алды</button>
-      <button class="point-btn" data-x="0.45" data-z="-0.25" data-visible="true" data-name="Оң алыс бұрыш">6. Оң бұрыш</button>
+      <button class="point-btn" data-index="0">1. Кабина алды</button>
+      <button class="point-btn" data-index="1">2. Оң борт</button>
+      <button class="point-btn" data-index="2">3. Көлік арты</button>
+      <button class="point-btn" data-index="3">4. Сол айна</button>
+      <button class="point-btn" data-index="4">5. Алыс алды</button>
+      <button class="point-btn" data-index="5">6. Оң бұрыш</button>
     </div>
 
     <button id="toggle-blindspots">Соқыр аймақтарды көрсету</button>
@@ -131,12 +131,12 @@
         <a-sphere position="0 0.19 0" radius="0.025" color="#fde68a"></a-sphere>
       </a-entity>
 
-      <a-circle class="visual-spot" data-visible="false" position="0 0.01 0.45" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-      <a-circle class="visual-spot" data-visible="false" position="0.28 0.01 0.15" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-      <a-circle class="visual-spot" data-visible="false" position="0 0.01 -0.55" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-      <a-circle class="visual-spot" data-visible="true" position="-0.32 0.01 0.05" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-      <a-circle class="visual-spot" data-visible="true" position="-0.15 0.01 0.65" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
-      <a-circle class="visual-spot" data-visible="true" position="0.45 0.01 -0.25" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
+      <a-circle class="visual-spot" data-visible="false" data-name="Кабинаның дәл алды" position="0 0.01 0.45" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
+      <a-circle class="visual-spot" data-visible="false" data-name="Оң жақ борт" position="0.28 0.01 0.15" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
+      <a-circle class="visual-spot" data-visible="false" data-name="Көліктің арты" position="0 0.01 -0.55" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
+      <a-circle class="visual-spot" data-visible="true" data-name="Сол жақ айна аймағы" position="-0.32 0.01 0.05" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
+      <a-circle class="visual-spot" data-visible="true" data-name="Алдыңғы алыс қашықтық" position="-0.15 0.01 0.65" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
+      <a-circle class="visual-spot" data-visible="true" data-name="Оң жақ алыс бұрыш" position="0.45 0.01 -0.25" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
 
     </a-entity>
   </a-scene>
