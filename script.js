@@ -1,134 +1,54 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const spots = document.querySelectorAll(".spot");
+  const pedestrian = document.querySelector("#pedestrian");
+  const statusBox = document.querySelector("#status-box");
+  const toggleBtn = document.querySelector("#toggle-blindspots");
 
-    const target = document.querySelector(
-        "[mindar-image-target]"
-    );
+  let showBlindSpots = false;
 
-    const points = [
-        { x: 0, z: -1.2, visible: false },
-        { x: 1.0, z: -0.8, visible: true },
-        { x: 1.0, z: 0.2, visible: true },
-        { x: -1.0, z: 0.2, visible: true },
-        { x: -1.0, z: -0.8, visible: false },
-        { x: 0, z: 1.3, visible: false }
-    ];
+  spots.forEach((spot) => {
+    const triggerAction = (e) => {
+      if (e) e.stopPropagation();
 
-    let showBlindZones = false;
+      const pos = spot.getAttribute("position");
+      pedestrian.setAttribute("position", `${pos.x} 0 ${pos.z}`);
+      pedestrian.setAttribute("visible", "true");
 
-    const person = document.createElement("a-cylinder");
+      const isVisible = spot.getAttribute("data-visible") === "true";
+      const spotName = spot.getAttribute("data-name");
 
-    person.setAttribute("radius", "0.12");
-    person.setAttribute("height", "0.5");
-    person.setAttribute("color", "#27AE60");
-    person.setAttribute("visible", "false");
+      if (isVisible) {
+        statusBox.textContent = `✅ ${spotName}: Кабинадан КӨРІНЕДІ`;
+        statusBox.style.background = "rgba(22, 163, 74, 0.9)"; 
+      } else {
+        statusBox.textContent = `⚠️ ${spotName}: СОҚЫР АЙМАҚ (Көрінбейді)`;
+        statusBox.style.background = "rgba(220, 38, 38, 0.9)"; 
+      }
+    };
 
-    target.appendChild(person);
+    spot.addEventListener("click", triggerAction);
+    spot.addEventListener("touchstart", triggerAction);
+    spot.addEventListener("mousedown", triggerAction);
+  });
 
-    const panel = document.createElement("div");
+  toggleBtn.addEventListener("click", () => {
+    showBlindSpots = !showBlindSpots;
 
-    panel.style.position = "fixed";
-    panel.style.top = "15px";
-    panel.style.left = "50%";
-    panel.style.transform = "translateX(-50%)";
-    panel.style.zIndex = "9999";
-    panel.style.textAlign = "center";
-    panel.style.width = "90%";
+    if (showBlindSpots) {
+      toggleBtn.textContent = "Соқыр аймақтарды жасыру";
+      toggleBtn.style.background = "#dc2626";
 
-    panel.innerHTML = `
-        <div style="
-            background: white;
-            padding: 12px;
-            border-radius: 12px;
-            font-family: Arial;
-            box-shadow: 0 2px 10px #888;
-        ">
-            <h3 style="margin: 5px;">
-                Жүргізуші сізді көре ала ма?
-            </h3>
+      spots.forEach((spot) => {
+        const isVisible = spot.getAttribute("data-visible") === "true";
+        spot.setAttribute("color", isVisible ? "#22c55e" : "#ef4444");
+      });
+    } else {
+      toggleBtn.textContent = "Соқыр аймақтарды көрсету";
+      toggleBtn.style.background = "#2563eb";
 
-            <p id="result">
-                Жүк көлігінің айналасындағы нүктені таңдаңыз
-            </p>
-
-            <button id="blindButton" style="
-                padding: 10px 15px;
-                background: #E74C3C;
-                color: white;
-                border: none;
-                border-radius: 8px;
-            ">
-                Соқыр аймақтарды көрсету
-            </button>
-        </div>
-    `;
-
-    document.body.appendChild(panel);
-
-    const result = document.getElementById("result");
-    const blindButton = document.getElementById("blindButton");
-
-    points.forEach((point, index) => {
-
-        const circle = document.createElement("a-cylinder");
-
-        circle.setAttribute(
-            "position",
-            `${point.x} 0.05 ${point.z}`
-        );
-
-        circle.setAttribute("radius", "0.16");
-        circle.setAttribute("height", "0.04");
-        circle.setAttribute("color", "#3498DB");
-
-        circle.setAttribute("class", "clickable");
-
-        circle.addEventListener("click", () => {
-
-            person.setAttribute(
-                "position",
-                `${point.x} 0.35 ${point.z}`
-            );
-
-            person.setAttribute("visible", "true");
-
-            if (point.visible) {
-
-                result.innerText =
-                    `№${index + 1} нүкте: Жүргізуші жаяу жүргіншіні көре алады`;
-
-                person.setAttribute("color", "#27AE60");
-
-            } else {
-
-                result.innerText =
-                    `№${index + 1} нүкте: САҚ БОЛЫҢЫЗ! Бұл — соқыр аймақ`;
-
-                person.setAttribute("color", "#E74C3C");
-            }
-        });
-
-        target.appendChild(circle);
-
-        point.element = circle;
-    });
-
-    blindButton.addEventListener("click", () => {
-
-        showBlindZones = !showBlindZones;
-
-        points.forEach((point) => {
-
-            if (showBlindZones && !point.visible) {
-                point.element.setAttribute("color", "#E74C3C");
-            } else {
-                point.element.setAttribute("color", "#3498DB");
-            }
-
-        });
-
-        blindButton.innerText = showBlindZones
-            ? "Соқыр аймақтарды жасыру"
-            : "Соқыр аймақтарды көрсету";
-    });
-
+      spots.forEach((spot) => {
+        spot.setAttribute("color", "#9ca3af");
+      });
+    }
+  });
 });
