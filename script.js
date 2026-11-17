@@ -6,17 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let showBlindSpots = false;
 
-  // Әрбір 6 шеңберге басу (click) оқиғасын қосу
   spots.forEach((spot) => {
-    spot.addEventListener("click", () => {
-      // 1. Таңдалған нүктенің координатасын алу
+    const handleSpotClick = (e) => {
+      e.stopPropagation(); 
+      
       const pos = spot.getAttribute("position");
       
-      // 2. Мүсіншені сол нүктеге көшіру және көрсету
       pedestrian.setAttribute("position", `${pos.x} 0 ${pos.z}`);
       pedestrian.setAttribute("visible", "true");
 
-      // 3. Жүргізушіге көрінетінін тексеру
       const isVisible = spot.getAttribute("data-visible") === "true";
       const spotName = spot.getAttribute("data-name");
 
@@ -27,10 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
         statusBox.textContent = `⚠️ ${spotName}: СОҚЫР АЙМАҚ (Көрінбейді)`;
         statusBox.style.background = "rgba(220, 38, 38, 0.9)"; // Қызыл
       }
-    });
+    };
+
+    spot.addEventListener("click", handleSpotClick);
+    spot.addEventListener("touchstart", handleSpotClick);
   });
 
-  // «Соқыр аймақтарды көрсету» батырмасы
   toggleBtn.addEventListener("click", () => {
     showBlindSpots = !showBlindSpots;
 
@@ -40,14 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       spots.forEach((spot) => {
         const isVisible = spot.getAttribute("data-visible") === "true";
-        // Көрінбейтіндерді қызыл, көрінетіндерді жасыл қылу
         spot.setAttribute("color", isVisible ? "#22c55e" : "#ef4444");
       });
     } else {
       toggleBtn.textContent = "Соқыр аймақтарды көрсету";
       toggleBtn.style.background = "#2563eb";
 
-      // Барлық шеңберді бастапқы сұр түске қайтару
       spots.forEach((spot) => {
         spot.setAttribute("color", "#9ca3af");
       });
