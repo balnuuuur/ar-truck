@@ -1,20 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const pointBtns = document.querySelectorAll(".point-btn");
+  const spots = document.querySelectorAll(".spot");
   const pedestrian = document.querySelector("#pedestrian");
   const statusBox = document.querySelector("#status-box");
   const toggleBtn = document.querySelector("#toggle-blindspots");
 
   let showBlindSpots = false;
 
-  pointBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const x = btn.getAttribute("data-x");
-      const z = btn.getAttribute("data-z");
-      const isVisible = btn.getAttribute("data-visible") === "true";
-      const spotName = btn.getAttribute("data-name");
+  spots.forEach((spot) => {
+    const triggerAction = (e) => {
+      if (e) e.stopPropagation();
 
-      pedestrian.setAttribute("position", `${x} 0 ${z}`);
+      const pos = spot.getAttribute("position");
+      pedestrian.setAttribute("position", `${pos.x} 0 ${pos.z}`);
       pedestrian.setAttribute("visible", "true");
+
+      const isVisible = spot.getAttribute("data-visible") === "true";
+      const spotName = spot.getAttribute("data-name");
 
       if (isVisible) {
         statusBox.textContent = `✅ ${spotName}: Кабинадан КӨРІНЕДІ`;
@@ -23,7 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
         statusBox.textContent = `⚠️ ${spotName}: СОҚЫР АЙМАҚ (Көрінбейді)`;
         statusBox.style.background = "rgba(220, 38, 38, 0.9)"; 
       }
-    });
+    };
+
+    spot.addEventListener("click", triggerAction);
+    spot.addEventListener("touchstart", triggerAction);
+    spot.addEventListener("mousedown", triggerAction);
   });
 
   toggleBtn.addEventListener("click", () => {
@@ -32,11 +37,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (showBlindSpots) {
       toggleBtn.textContent = "Соқыр аймақтарды жасыру";
       toggleBtn.style.background = "#dc2626";
-      statusBox.textContent = "🔴 Қызыл аймақтар - жүргізуші көре алмайтын соқыр аймақтар!";
+
+      spots.forEach((spot) => {
+        const isVisible = spot.getAttribute("data-visible") === "true";
+        spot.setAttribute("color", isVisible ? "#22c55e" : "#ef4444");
+      });
     } else {
       toggleBtn.textContent = "Соқыр аймақтарды көрсету";
       toggleBtn.style.background = "#2563eb";
-      statusBox.textContent = "Нүктені таңдап, жүргізуші көрінісін тексеріңіз";
+
+      spots.forEach((spot) => {
+        spot.setAttribute("color", "#9ca3af");
+      });
     }
   });
 });

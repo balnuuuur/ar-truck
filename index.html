@@ -16,57 +16,35 @@
     }
     #ui-container {
       position: fixed;
-      bottom: 15px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 999;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
-      width: 92%;
-      max-width: 420px;
+      gap: 10px;
+      width: 90%;
+      max-width: 400px;
     }
     #status-box {
       background: rgba(0, 0, 0, 0.85);
       color: white;
-      padding: 10px 15px;
-      border-radius: 10px;
-      font-size: 14px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 15px;
       font-weight: bold;
       text-align: center;
       width: 100%;
       box-sizing: border-box;
     }
-
-    #points-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-      width: 100%;
-    }
-    .point-btn {
-      background: rgba(255, 255, 255, 0.9);
-      color: #111;
-      border: 1px solid #ccc;
-      padding: 8px 10px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      text-align: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-    .point-btn:active {
-      background: #e2e8f0;
-    }
     #toggle-blindspots {
       background: #2563eb;
       color: white;
       border: none;
-      padding: 10px 15px;
-      border-radius: 8px;
-      font-size: 14px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 15px;
       font-weight: bold;
       cursor: pointer;
       width: 100%;
@@ -95,17 +73,7 @@
   <div id="label-top">Жеңілдетілген оқу моделі</div>
 
   <div id="ui-container">
-    <div id="status-box">Жаяу жүргіншіні орналастыру үшін нүктені таңдаңыз</div>
-    
-    <div id="points-grid">
-      <button class="point-btn" data-x="0" data-z="0.45" data-visible="false" data-name="Кабинаның дәл алды">1. Кабина алды ⚠️</button>
-      <button class="point-btn" data-x="0.28" data-z="0.15" data-visible="false" data-name="Оң жақ борт">2. Оң жақ борт ⚠️</button>
-      <button class="point-btn" data-x="0" data-z="-0.55" data-visible="false" data-name="Көліктің арты">3. Көліктің арты ⚠️</button>
-      <button class="point-btn" data-x="-0.32" data-z="0.05" data-visible="true" data-name="Сол жақ айна аймағы">4. Сол айна ✅</button>
-      <button class="point-btn" data-x="-0.15" data-z="0.65" data-visible="true" data-name="Алдыңғы алыс аймақ">5. Алдыңғы алыс ✅</button>
-      <button class="point-btn" data-x="0.45" data-z="-0.25" data-visible="true" data-name="Оң жақ алыс бұрыш">6. Оң алыс бұрыш ✅</button>
-    </div>
-
+    <div id="status-box">Жүк көлігінің жанындағы шеңберді түртіңіз</div>
     <button id="toggle-blindspots">Соқыр аймақтарды көрсету</button>
   </div>
 
@@ -117,6 +85,7 @@
     device-orientation-permission-ui="enabled: false">
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+    <a-entity cursor="rayOrigin: mouse;" raycaster="objects: .clickable;"></a-entity>
 
     <a-entity mindar-image-target="targetIndex: 0">
       
@@ -132,6 +101,13 @@
         <a-cylinder position="0 0.08 0" radius="0.025" height="0.16" color="#f59e0b"></a-cylinder>
         <a-sphere position="0 0.19 0" radius="0.025" color="#fde68a"></a-sphere>
       </a-entity>
+
+      <a-circle class="clickable spot" data-visible="false" data-name="Кабинаның дәл алды" position="0 0.01 0.45" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
+      <a-circle class="clickable spot" data-visible="false" data-name="Оң жақ борт" position="0.28 0.01 0.15" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
+      <a-circle class="clickable spot" data-visible="false" data-name="Көліктің арты" position="0 0.01 -0.55" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
+      <a-circle class="clickable spot" data-visible="true" data-name="Сол жақ айна аймағы" position="-0.32 0.01 0.05" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
+      <a-circle class="clickable spot" data-visible="true" data-name="Алдыңғы алыс қашықтық" position="-0.15 0.01 0.65" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
+      <a-circle class="clickable spot" data-visible="true" data-name="Оң жақ алыс бұрыш" position="0.45 0.01 -0.25" rotation="-90 0 0" radius="0.07" color="#9ca3af"></a-circle>
 
     </a-entity>
   </a-scene>
