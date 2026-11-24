@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const isVisible = targetSpot.getAttribute("data-visible") === "true";
       const spotName = targetSpot.getAttribute("data-name");
 
-      pedestrian.setAttribute("position", `${pos.x} 0 ${pos.z}`);
+      pedestrian.setAttribute("position", `${pos.x} 0.01 ${pos.z}`);
       pedestrian.setAttribute("visible", "true");
 
       if (isVisible) {
