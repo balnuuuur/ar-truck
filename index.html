@@ -90,7 +90,7 @@
 </head>
 <body>
 
-  <div id="label-top">Жеңілдетілген оқу моделі</div>
+  <div id="label-top">AR оқу моделі - Соқыр аймақтар</div>
 
   <div id="ui-container">
     <div id="status-box">Мүсіншені қою үшін төменнен нүктені таңдаңыз</div>
@@ -114,16 +114,22 @@
     vr-mode-ui="enabled: false" 
     device-orientation-permission-ui="enabled: false">
 
+    <a-assets>
+      <a-asset-item id="truck-model" src="./truck.glb"></a-asset-item>
+    </a-assets>
+
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
     <a-entity mindar-image-target="targetIndex: 0">
       
       <a-plane position="0 0 0" rotation="-90 0 0" width="1.4" height="1.4" color="#333333" opacity="0.7"></a-plane>
 
-      <a-entity id="truck" position="0 0 0">
-        <a-box position="0 0.18 -0.15" width="0.3" height="0.3" depth="0.55" color="#e5e7eb"></a-box>
-        <a-box position="0 0.14 0.22" width="0.28" height="0.22" depth="0.2" color="#2563eb"></a-box>
-        <a-box position="0 0.18 0.321" width="0.24" height="0.1" depth="0.01" color="#93c5fd"></a-box>
+      <a-entity 
+        id="truck" 
+        gltf-model="#truck-model" 
+        position="0 0 0" 
+        scale="0.15 0.15 0.15" 
+        rotation="0 0 0">
       </a-entity>
 
       <a-entity id="pedestrian" visible="false" position="0 0 0">
