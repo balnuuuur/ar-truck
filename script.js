@@ -6,7 +6,34 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusBox = document.querySelector("#status-box");
   const toggleBtn = document.querySelector("#toggle-blindspots");
 
+  const hintRow = document.querySelector("#hint-row");
+  const hintToggleBtn = document.querySelector("#hint-toggle-btn");
+  const hintBox = document.querySelector("#hint-box");
+
+  const spotExplanations = {
+    0: "Биік кабина мен алдыңғы әйнектің төменгі шегіне байланысты жүргізуші дәл алдындағы жаяу жүргіншіні байқамай қалуы мүмкін. Көліктің алдынан тым жақын өтпеңіз.",
+    1: "Оң жақтағы соқыр аймақ ең қауіптілердің бірі: бүйірлік айналардағы бұрыштар мен кузовтың кесірінен жақын тұрған адам көрінбей қалуы ықтимал.",
+    2: "Жүк көлігінің артында артқы шолу шектеулі немесе мүлдем болмайды. Көлік артқа жүргенде бұл аймақта тұру өте қауіпті.",
+    3: "Жүргізушінің сол жақ бүйірлік айнасынан жақсы көрінетін аймақ. Дегенмен көлік қозғалыста болғанда бәрібір қашықтық сақтаған жөн.",
+    4: "Көліктен белгілі бір қашықтықта тұрғандықтан, жаяу жүргінші жүргізушінің алдыңғы әйнегінен анық көрінеді.",
+    5: "Оң жақ қашығырақ бұрыштағы адам бүйірлік айналар мен көру бұрышы арқылы жүргізушіге көрінеді, бірақ бұрылу кезінде абай болған дұрыс."
+  };
+
   let showBlindSpots = false;
+  let currentExplanation = "";
+  let isHintOpen = false;
+
+  const setHintOpen = (open) => {
+    isHintOpen = open;
+    hintBox.style.display = open ? "block" : "none";
+    hintToggleBtn.textContent = open ? "✕ Түсіндірмені жабу" : "💡 Түсіндірмені ашу";
+  };
+
+  hintToggleBtn.addEventListener("click", () => {
+    if (!currentExplanation) return;
+    hintBox.textContent = currentExplanation;
+    setHintOpen(!isHintOpen);
+  });
 
   pointBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -27,6 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
         statusBox.textContent = `⚠️ ${spotName}: СОҚЫР АЙМАҚ (Көрінбейді)`;
         statusBox.style.background = "rgba(220, 38, 38, 0.9)";
       }
+
+      currentExplanation = spotExplanations[index] || "";
+      hintBox.textContent = currentExplanation;
+      hintRow.style.display = currentExplanation ? "flex" : "none";
+      setHintOpen(false);
     });
   });
 

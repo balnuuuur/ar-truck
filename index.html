@@ -38,6 +38,43 @@
       width: 100%;
       box-sizing: border-box;
     }
+
+    #hint-row {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      gap: 6px;
+    }
+    #hint-toggle-btn {
+      background: rgba(17, 24, 39, 0.92);
+      color: #fde68a;
+      border: 1px solid rgba(253, 230, 138, 0.45);
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    #hint-toggle-btn:active {
+      background: rgba(31, 41, 55, 0.95);
+    }
+    #hint-box {
+      display: none;
+      background: rgba(15, 23, 42, 0.95);
+      color: #f8fafc;
+      border-left: 4px solid #38bdf8;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.45;
+      text-align: left;
+      width: 100%;
+      box-sizing: border-box;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    }
     #points-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -94,6 +131,11 @@
 
   <div id="ui-container">
     <div id="status-box">Мүсіншені қою үшін төменнен нүктені таңдаңыз</div>
+
+    <div id="hint-row">
+      <button id="hint-toggle-btn" type="button">💡 Түсіндірмені ашу</button>
+      <div id="hint-box"></div>
+    </div>
     
     <div id="points-grid">
       <button class="point-btn" data-index="0">1. Кабина алды</button>
