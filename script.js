@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const visualSpots = document.querySelectorAll(".visual-spot");
   const blindspotZones = document.querySelector("#blindspot-zones");
   const pedestrian = document.querySelector("#pedestrian");
+  const modelGroup = document.querySelector("#model-group");
+  const uiContainer = document.querySelector("#ui-container");
   const statusBox = document.querySelector("#status-box");
   const toggleBtn = document.querySelector("#toggle-blindspots");
 
@@ -22,6 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let showBlindSpots = false;
   let currentExplanation = "";
   let isHintOpen = false;
+
+  let isDragging = false;
+  let startX = 0;
+  let currentRotationY = 0;
+  const rotationSpeed = 0.45; 
 
   const setHintOpen = (open) => {
     isHintOpen = open;
@@ -93,5 +100,27 @@ document.addEventListener("DOMContentLoaded", () => {
         spot.setAttribute("color", "#9ca3af");
       });
     }
+  });
+
+  document.addEventListener("touchstart", (e) => {
+    if (uiContainer && uiContainer.contains(e.target)) return;
+    if (e.touches.length === 1) {
+      isDragging = true;
+      startX = e.touches[0].clientX;
+    }
+  }, { passive: true });
+
+  document.addEventListener("touchmove", (e) => {
+    if (!isDragging || e.touches.length !== 1 || !modelGroup) return;
+    const currentX = e.touches[0].clientX;
+    const deltaX = currentX - startX;
+    startX = currentX;
+
+    currentRotationY += deltaX * rotationSpeed;
+    modelGroup.setAttribute("rotation", `0 ${currentRotationY} 0`);
+  }, { passive: true });
+
+  document.addEventListener("touchend", () => {
+    isDragging = false;
   });
 });
